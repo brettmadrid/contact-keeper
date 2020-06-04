@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://neo123:neo123@contactkeeper-awpgj.mongodb.net/test?retryWrites=true&w=majority"
+}
