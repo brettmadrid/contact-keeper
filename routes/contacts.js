@@ -1,11 +1,26 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../middleware/auth')
+const { check, validationResult } = require('express-validator/check')
+
+// path to user table schema
+const User = require('../models/User')
+const Contact = require('../models/Contact')
 
 // @route GET api/contacts
 // @desc Get all user's contacts
 // @access Private
-router.get('/', (req, res) => {
-  res.send("Get user's contacts")
+router.get('/', auth, async (req, res) => {
+  try {
+    // have access to the req.user.id through the auth middleware
+    const contacts = await Contact.find({ user: req.user.id }).sort({
+      date: -1,
+    })
+    res.status(200).json(contacts)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).json({ msg: 'server error' })
+  }
 })
 
 // @route POST api/contacts
